@@ -1,0 +1,338 @@
+You are an expert Software Architect, AI Engineer, Cybersecurity Engineer, UI/UX Designer, and Senior Full Stack Developer.
+
+Your task is to build a production-quality MVP desktop application named:
+
+AI Cyber Defense Network
+
+The application must run on both Windows and Linux.
+
+====================================================
+OBJECTIVE
+====================================================
+
+Build an AI-powered desktop application that assists security analysts by analyzing security logs, detecting suspicious activities, explaining threats in natural language, assigning severity levels, mapping attacks to cybersecurity frameworks, and generating actionable incident reports.
+
+This is an MVP (Minimum Viable Product). Build a clean, modular architecture that can be expanded later.
+
+====================================================
+TARGET USERS
+====================================================
+
+• Security Analysts
+• SOC Analysts
+• Students
+• Cybersecurity Researchers
+• Small Organizations
+
+====================================================
+TECH STACK
+====================================================
+
+Desktop UI
+- C#
+- .NET 8
+- WPF (Windows)
+- Avalonia UI (Cross-platform preferred)
+
+Backend
+- Python
+- FastAPI
+
+AI
+- OpenAI API
+
+Database
+- SQLite
+
+Communication
+- REST API
+
+====================================================
+DESIGN REQUIREMENTS
+====================================================
+
+Modern Cybersecurity Dashboard
+
+Theme:
+• Dark
+• Blue accent
+• Professional SOC appearance
+
+Dashboard Cards
+
+Total Logs
+
+Threats Detected
+
+Critical Incidents
+
+High Incidents
+
+Medium
+
+Low
+
+Recent Alerts
+
+====================================================
+SIDEBAR
+====================================================
+
+Dashboard
+
+Upload Logs
+
+Threat Analysis
+
+Incidents
+
+Reports
+
+Settings
+
+About
+
+====================================================
+SUPPORTED LOGS
+====================================================
+
+Windows Event Logs (.evtx)
+
+Linux auth.log
+
+Syslog
+
+Apache logs
+
+Nginx logs
+
+JSON logs
+
+Plain text logs
+
+====================================================
+WORKFLOW
+====================================================
+
+User uploads log
+
+↓
+
+Backend processes log
+
+↓
+
+Python parser extracts events
+
+↓
+
+AI analyzes findings
+
+↓
+
+Threats identified
+
+↓
+
+Assign severity
+
+↓
+
+Map to MITRE ATT&CK
+
+↓
+
+Map to NIST CSF
+
+↓
+
+Generate recommendations
+
+↓
+
+Store incident
+
+↓
+
+Display on dashboard
+
+====================================================
+AI OUTPUT
+====================================================
+
+Threat Name
+
+Description
+
+Why AI thinks this is suspicious
+
+Risk Score
+
+Severity
+
+Recommended Actions
+
+Affected Assets
+
+Confidence Score
+
+MITRE ATT&CK Mapping
+
+NIST CSF Mapping
+
+====================================================
+SEVERITY
+====================================================
+
+Critical
+
+High
+
+Medium
+
+Low
+
+Informational
+
+====================================================
+NIST CSF
+====================================================
+
+Identify
+
+Protect
+
+Detect
+
+Respond
+
+Recover
+
+====================================================
+MITRE ATT&CK
+====================================================
+
+Show
+
+Tactic
+
+Technique
+
+Technique ID
+
+====================================================
+REPORTS
+====================================================
+
+Generate PDF report
+
+Incident Summary
+
+Timeline
+
+Severity
+
+Recommendations
+
+Framework Mapping
+
+====================================================
+DATABASE
+====================================================
+
+Users
+
+Uploaded Logs
+
+Incidents
+
+Threat Analysis
+
+Reports
+
+====================================================
+SETTINGS
+====================================================
+
+OpenAI API Key
+
+Theme
+
+Database
+
+Logs Folder
+
+====================================================
+NON-FUNCTIONAL REQUIREMENTS
+====================================================
+
+Clean architecture
+
+MVVM pattern for desktop
+
+Modular backend
+
+Reusable services
+
+Error handling
+
+Logging
+
+Input validation
+
+Responsive UI
+
+====================================================
+PROJECT STRUCTURE
+====================================================
+
+Desktop/
+
+Backend/
+
+Database/
+
+Docs/
+
+API/
+
+Assets/
+
+====================================================
+IMPORTANT
+====================================================
+
+Do NOT generate everything at once.
+
+Build the project incrementally.
+
+Step 1
+Create the complete folder structure.
+
+Step 2
+Create desktop UI.
+
+Step 3
+Create backend.
+
+Step 4
+Implement log upload.
+
+Step 5
+Implement log parser.
+
+Step 6
+Implement AI analysis.
+
+Step 7
+Implement incident dashboard.
+
+Step 8
+Generate reports.
+
+Step 9
+Polish UI.
+
+After completing each step, wait for confirmation before proceeding to the next.
+
+Use production-quality code, clear comments, and maintainable architecture throughout.
