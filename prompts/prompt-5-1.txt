@@ -1,0 +1,45 @@
+Use a database-backed architecture.
+
+Requirements:
+
+- Every uploaded log must first be parsed, normalized, analyzed, and stored in the database.
+- Dashboard endpoints must aggregate data from the database, not from the request body.
+- The dashboard should always reflect all previously ingested logs.
+- Store alerts, incidents, threats, risk scores, MITRE ATT&CK mappings, and AI analysis results.
+- Optimize queries using indexes and aggregation.
+- Return dashboard metrics from persistent storage.
+
+Dashboard endpoints should include:
+
+- Total Logs
+- Total Alerts
+- Critical Alerts
+- High/Medium/Low Severity Counts
+- Threat Categories
+- MITRE ATT&CK Techniques
+- Recent Incidents
+- Attack Timeline
+- Top Source IPs
+- Top Destination Hosts
+- Most Targeted Users
+- Risk Distribution
+- Daily/Weekly/Monthly Trends
+- Threat Confidence Distribution
+
+Workflow:
+
+Upload Log
+↓
+Parse
+↓
+Normalize
+↓
+Threat Detection
+↓
+AI Analysis
+↓
+Store in Database
+↓
+Dashboard Aggregation APIs
+
+Do not aggregate directly from uploaded request data except for preview/testing endpoints.

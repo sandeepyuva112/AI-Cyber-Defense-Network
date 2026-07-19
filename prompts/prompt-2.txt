@@ -1,0 +1,51 @@
+You are a senior AI software architect and cybersecurity engineer.
+
+Complete the AI Engine for my existing AI Cyber Defense Network project.
+
+IMPORTANT:
+- Do NOT create a new project.
+- Analyze my existing repository first.
+- Follow my architecture.
+- Reuse existing folders.
+- Do not duplicate files.
+
+Requirements
+
+Create an AI service that communicates with the OpenAI Responses API.
+
+The AI must:
+
+• Analyze uploaded security logs
+• Explain attacks in plain English
+• Detect suspicious activities
+• Classify incidents
+• Assign severity
+• Estimate confidence
+• Map findings to MITRE ATT&CK
+• Recommend remediation
+• Produce executive summaries
+
+The AI should support
+
+- Windows Event Logs
+- Linux Syslog
+- Firewall Logs
+- Authentication Logs
+- Network Logs
+
+Create
+
+- AI Service
+- Prompt Templates
+- Response Parser
+- Error Handling
+- Retry Logic
+- Token Management
+
+Use structured JSON outputs.
+
+Integrate with the existing backend.
+
+Do not change existing architecture.
+
+After implementation explain every created file.

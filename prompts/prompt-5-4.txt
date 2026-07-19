@@ -1,0 +1,24 @@
+Yes.
+
+Use the current database URL from `settings.database_url` and generate SQLite-compatible Alembic migrations.
+
+Requirements:
+
+- Use the existing SQLite database located at:
+  `Backend/Database/ai_cyber_defense.db`
+
+- Configure Alembic to read the database URL dynamically from `settings.database_url`. Do not hardcode the connection string.
+
+- Generate SQLite-safe schemas and migrations.
+
+- Follow SQLAlchemy 2.x and Alembic best practices.
+
+- Keep the ORM models database-agnostic as much as possible so that migrating to PostgreSQL later requires minimal changes.
+
+- Avoid SQLite-specific hacks unless absolutely necessary.
+
+- If any feature differs between SQLite and PostgreSQL (e.g., JSON fields, UUIDs, enums, server defaults, partial indexes), implement it in a way that remains portable and clearly document the differences.
+
+- Ensure all migrations support both upgrade and downgrade.
+
+- Verify the initial migration applies successfully to the existing SQLite database.

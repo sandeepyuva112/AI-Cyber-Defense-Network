@@ -1,0 +1,27 @@
+Approved.
+
+Implement the desktop UI using MVVM with mock/live-refresh support.
+
+Requirements:
+
+1. Immediately connect the UI to the existing backend endpoints:
+   - GET /status
+   - POST /ai/analyze
+
+2. For all remaining SOC dashboard datasets (alerts, incidents, trends, MITRE ATT&CK, dashboard metrics, reports, etc.), use strongly typed placeholder services that exactly match the future API contracts.
+
+3. The UI must automatically switch from placeholder services to the real backend endpoints once those APIs become available, requiring minimal or no ViewModel changes.
+
+4. Keep the ViewModels independent of whether the data source is mock or live by using interfaces and dependency injection.
+
+5. Implement graceful loading, empty, offline, and error states throughout the application.
+
+Charts:
+
+Do NOT add any external chart NuGet packages unless absolutely necessary.
+
+Implement lightweight custom charts using native Avalonia controls (Canvas, Shapes, Paths, Geometry, etc.) to keep dependencies minimal for the hackathon.
+
+If, after implementation, a native solution cannot provide a clean, maintainable, and professional experience, then recommend a well-maintained chart library before adding it. Do not introduce additional dependencies without explicit approval.
+
+Maintain a clean MVVM architecture, reuse the existing project structure, and do not redesign the application.

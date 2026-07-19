@@ -1,0 +1,45 @@
+Complete the Avalonia Desktop UI.
+
+Analyze existing project.
+
+Do not replace existing pages.
+
+Implement
+
+Professional SOC Dashboard
+
+Threat Cards
+
+Risk Meter
+
+Timeline
+
+Alert Table
+
+Search
+
+Filters
+
+Dark Theme
+
+Navigation
+
+Loading Animations
+
+Error Messages
+
+Responsive Layout
+
+Charts
+
+Threat Details Window
+
+Live Refresh
+
+Settings Page
+
+Reuse ViewModels.
+
+Follow MVVM.
+
+Explain every modification.

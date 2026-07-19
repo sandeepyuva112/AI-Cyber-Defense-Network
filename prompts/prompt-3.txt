@@ -1,0 +1,49 @@
+Complete the Log Parsing Engine inside my existing repository.
+
+Analyze my project before coding.
+
+Implement parsers for
+
+• Windows Event Logs
+• Syslog
+• JSON Logs
+• CSV Logs
+• Apache Logs
+• Nginx Logs
+• Firewall Logs
+
+Every parser must normalize data into one common schema.
+
+Fields
+
+Timestamp
+
+Source
+
+IP
+
+Destination IP
+
+Username
+
+Event ID
+
+Process
+
+Severity
+
+Message
+
+Event Type
+
+IOC
+
+Threat Score
+
+Return standardized objects.
+
+Handle malformed logs gracefully.
+
+Write production quality code.
+
+Explain every file created.

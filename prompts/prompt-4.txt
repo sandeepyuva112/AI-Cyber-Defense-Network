@@ -1,0 +1,49 @@
+Complete the Threat Detection Engine.
+
+Analyze my repository before coding.
+
+Implement detection for
+
+Brute Force
+
+Credential Stuffing
+
+Port Scan
+
+PowerShell Abuse
+
+Privilege Escalation
+
+Malware Execution
+
+Persistence
+
+Lateral Movement
+
+Command & Control
+
+Suspicious Process
+
+Registry Changes
+
+Fileless Malware
+
+Living Off The Land
+
+Implement
+
+IOC Detection
+
+Behavior Analysis
+
+Rule Engine
+
+Threat Scoring
+
+Confidence Calculation
+
+Return structured findings.
+
+Integrate with existing backend.
+
+Do not rebuild existing code.

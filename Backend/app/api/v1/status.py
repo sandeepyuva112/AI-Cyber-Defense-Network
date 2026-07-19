@@ -18,7 +18,7 @@ def get_status() -> ServiceStatus:
             CapabilityStatus(name="Log Parser", status="planned"),
             CapabilityStatus(name="AI Threat Analysis", status="planned"),
             CapabilityStatus(name="Incident Dashboard", status="ui-ready"),
-            CapabilityStatus(name="PDF Reports", status="planned"),
+            CapabilityStatus(name="PDF Reports", status="ui-ready"),
         ],
     )
 

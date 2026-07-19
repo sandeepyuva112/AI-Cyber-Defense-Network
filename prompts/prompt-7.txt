@@ -1,0 +1,39 @@
+Complete the reporting module.
+
+Generate
+
+Executive Report
+
+Technical Report
+
+Incident Report
+
+MITRE ATT&CK Report
+
+IOC Report
+
+PDF Export
+
+HTML Export
+
+JSON Export
+
+Include
+
+Threat Summary
+
+Timeline
+
+Risk
+
+Affected Assets
+
+Recommendations
+
+Evidence
+
+Charts
+
+Integrate with backend.
+
+Reuse existing architecture.

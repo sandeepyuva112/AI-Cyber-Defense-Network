@@ -1,0 +1,13 @@
+Alembic migrations for AI-Cyber-Defense-Network.
+
+This project uses:
+- SQLAlchemy 2.x models
+- Metadata imported from app.db.base.Base
+- Dynamic database URL from app.core.config.settings.database_url
+
+Workflow:
+1) Define/update models in app/db/models/
+2) Generate migration with: alembic revision --autogenerate -m "..."
+3) Apply with: alembic upgrade head
+4) Verify downgrade with: alembic downgrade -1 (or to base)
+

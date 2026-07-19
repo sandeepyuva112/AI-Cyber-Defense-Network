@@ -1,0 +1,56 @@
+Use SQLAlchemy + Alembic migrations.
+
+Requirements:
+
+- Analyze the existing repository before making changes.
+- Reuse the current database architecture.
+- Do not replace existing code unless necessary.
+- Create production-ready SQLAlchemy ORM models.
+- Configure Alembic for schema versioning.
+- Generate the initial migration.
+- Ensure future schema changes can be migrated safely.
+
+Create models for:
+
+- Users
+- Logs
+- Alerts
+- Incidents
+- Threats
+- AIAnalysis
+- Reports
+- MITREAttackMapping
+- IOC
+- AuditLogs
+
+Relationships:
+
+- One Log can produce multiple Alerts.
+- One Alert belongs to one Log.
+- One Incident can contain multiple Alerts.
+- One AIAnalysis belongs to one Log.
+- Reports reference Incidents.
+- MITRE mappings reference Alerts or Incidents.
+
+Implement an ingestion endpoint that:
+
+1. Accepts uploaded log files.
+2. Detects log format automatically.
+3. Parses and normalizes the logs.
+4. Runs threat detection.
+5. Sends relevant data to the AI analysis service.
+6. Stores all results in the database.
+7. Returns a job/result summary.
+
+Dashboard endpoints must read only from the database and provide aggregated analytics.
+
+Optimize the database using indexes and proper relationships.
+
+Follow FastAPI, SQLAlchemy 2.x, and Alembic best practices.
+
+At the end, explain:
+- Every new file
+- Every modified file
+- Every migration
+- How to apply migrations
+- How the ingestion pipeline works

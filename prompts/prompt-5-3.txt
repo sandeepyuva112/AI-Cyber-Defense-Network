@@ -1,0 +1,35 @@
+Use the standard FastAPI layout.
+
+Place Alembic here:
+
+Backend/
+├── alembic.ini
+├── alembic/
+│   ├── env.py
+│   ├── script.py.mako
+│   ├── versions/
+│   └── README
+├── app/
+│   ├── api/
+│   ├── core/
+│   ├── db/
+│   │   ├── session.py
+│   │   ├── base.py
+│   │   ├── models/
+│   │   └── repositories/
+│   ├── services/
+│   ├── schemas/
+│   └── ...
+└── ...
+
+Requirements:
+
+- Use SQLAlchemy 2.x.
+- Configure Alembic to autogenerate migrations from the SQLAlchemy models.
+- Import metadata from the application's Base class.
+- Keep all ORM models under Backend/app/db/models/.
+- Do not place ORM models inside the Alembic directory.
+- Ensure migrations work with the existing database configuration.
+- Do not modify the project structure unless required for compatibility.
+- Create the initial migration and verify it can upgrade and downgrade successfully.
+- Follow FastAPI and Alembic best practices.

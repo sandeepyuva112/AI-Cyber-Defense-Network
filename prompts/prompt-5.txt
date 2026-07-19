@@ -1,0 +1,33 @@
+Complete all dashboard APIs.
+
+Analyze my repository first.
+
+Create APIs for
+
+Dashboard Statistics
+
+Threat Count
+
+Critical Alerts
+
+Attack Timeline
+
+Top Attack Types
+
+Most Targeted Hosts
+
+Recent Alerts
+
+Daily Trends
+
+Weekly Trends
+
+Monthly Trends
+
+Risk Distribution
+
+Return optimized JSON.
+
+Reuse existing models.
+
+Do not redesign architecture.

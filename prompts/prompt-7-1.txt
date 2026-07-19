@@ -1,0 +1,67 @@
+Approved.
+
+Proceed with:
+
+- New report schemas
+- Report builder service
+- Exporters
+- New API routes
+- Persistence using the existing Report model
+- Unit and integration tests
+
+PDF Export:
+
+Use a real PDF generation library.
+
+Requirements:
+
+- Add a lightweight, actively maintained PDF library dependency.
+- Generate true PDF files, not HTML disguised as PDFs.
+- Keep the PDF generation modular behind an exporter interface so additional export formats can be added later.
+
+Implement exporters for:
+
+- PDF
+- HTML
+- JSON
+
+Every report should include:
+
+- Executive Summary
+- Incident Summary
+- Threat Severity
+- Risk Score
+- Confidence Score
+- Timeline
+- Indicators of Compromise (IOCs)
+- MITRE ATT&CK Mapping
+- Affected Assets
+- AI Explanation
+- Recommended Response Actions
+- Evidence
+- Report Metadata (generated time, report ID, version)
+
+API Requirements:
+
+- Generate report
+- Retrieve report
+- List reports
+- Delete report
+- Export report as PDF
+- Export report as HTML
+- Export report as JSON
+
+Persistence:
+
+- Reuse the existing Report model.
+- Store report metadata in the database.
+- Store export locations or binary content as appropriate.
+- Avoid duplicating report data unnecessarily.
+
+Testing:
+
+- Unit tests for report generation.
+- Integration tests for all report endpoints.
+- Validation tests for every export format.
+
+Keep the implementation modular, production-ready, and consistent with the existing architecture.
