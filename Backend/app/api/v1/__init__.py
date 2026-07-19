@@ -1,2 +1,2 @@
-"""Version 1 API routes."""
+"""API v1 routers package."""
 

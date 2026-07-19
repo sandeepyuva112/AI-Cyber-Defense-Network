@@ -1,0 +1,119 @@
+Approved.
+
+Implement the missing backend endpoints by creating dedicated FastAPI router modules under:
+
+Backend/app/api/v1/
+
+Requirements:
+
+Create router modules for:
+
+- logs.py
+  - Upload Logs
+  - Analyze Logs
+  - Log Details
+  - Log History
+
+- dashboard.py
+  - Dashboard Summary
+  - Metrics
+  - Threat Timeline
+  - Risk Distribution
+  - Recent Activity
+  - Trend Analytics
+
+- alerts.py
+  - List Alerts
+  - Alert Details
+  - Alert Status Updates
+  - Alert Filtering
+  - Alert Search
+
+- threats.py
+  - Threat Details
+  - MITRE ATT&CK Mapping
+  - IOC Details
+  - Threat Intelligence
+  - Risk Assessment
+
+- ai.py
+  - AI Explanation
+  - AI Re-analysis
+  - Executive Summary
+  - Recommended Response
+  - AI History
+
+- reports.py
+  - Generate Report
+  - List Reports
+  - Retrieve Report
+  - Delete Report
+  - Export PDF
+  - Export HTML
+  - Export JSON
+
+- settings.py
+  - Application Settings
+  - AI Configuration
+  - Detection Configuration
+  - System Information
+  - Health Checks
+
+Architecture Requirements:
+
+- Register every router through Backend/app/api/router.py.
+- Keep API versioning under /api/v1/.
+- Reuse existing services, repositories, and database models.
+- Do not duplicate business logic inside routers.
+- Keep routers responsible only for request validation, response serialization, and dependency injection.
+- Place business logic inside the service layer.
+- Place database operations inside repository classes.
+- Use dependency injection consistently throughout the application.
+
+OpenAPI Requirements:
+
+- Define explicit request and response schemas for every endpoint.
+- Provide response models for success and error cases.
+- Include summaries, descriptions, tags, and status codes.
+- Ensure the generated OpenAPI documentation is complete and consistent.
+
+Shared Infrastructure:
+
+- Centralize:
+  - Pagination
+  - Filtering
+  - Sorting
+  - Error handling
+  - Authentication hooks
+  - Validation helpers
+  - Standard response models
+  - Exception handlers
+  - Logging middleware
+
+API Standards:
+
+- Follow RESTful conventions.
+- Return consistent JSON response envelopes.
+- Use appropriate HTTP status codes.
+- Implement async endpoints where appropriate.
+- Support pagination for collection endpoints.
+- Support filtering and sorting where applicable.
+
+Compatibility:
+
+- Do not rename existing routes unless necessary.
+- Do not break existing endpoints.
+- Maintain backward compatibility.
+- Reuse the current project structure and coding conventions.
+
+Testing:
+
+- Add unit tests and integration tests for all new endpoints.
+- Verify OpenAPI schema generation.
+- Ensure every endpoint is fully documented and testable.
+
+At the end, provide:
+- A list of all new files.
+- A list of modified files.
+- Every new endpoint.
+- The dependency flow between routers, services, repositories, and database models.

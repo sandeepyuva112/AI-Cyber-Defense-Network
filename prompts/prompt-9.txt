@@ -1,0 +1,31 @@
+Complete every API endpoint.
+
+Analyze repository first.
+
+Implement
+
+Upload Logs
+
+Analyze Logs
+
+Dashboard
+
+Alerts
+
+Threat Details
+
+Reports
+
+Export
+
+AI Explanation
+
+Health Check
+
+Settings
+
+Use FastAPI best practices.
+
+Generate OpenAPI documentation.
+
+Do not duplicate code.
