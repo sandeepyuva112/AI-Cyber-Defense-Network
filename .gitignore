@@ -1,0 +1,24 @@
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.cache
+*.log
+
+# Python backend artifacts for later steps.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local application data.
+*.db
+*.sqlite
+*.sqlite3
+logs/*
+!logs/.gitkeep
+reports/*
+!reports/.gitkeep

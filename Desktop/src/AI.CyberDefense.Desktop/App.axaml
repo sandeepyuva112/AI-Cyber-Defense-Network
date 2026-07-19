@@ -1,0 +1,25 @@
+<Application
+    x:Class="AI.CyberDefense.Desktop.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    RequestedThemeVariant="Dark">
+  <Application.Styles>
+    <FluentTheme />
+  </Application.Styles>
+
+  <Application.Resources>
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#08111F" />
+    <SolidColorBrush x:Key="PanelBrush" Color="#0D1A2B" />
+    <SolidColorBrush x:Key="PanelElevatedBrush" Color="#102238" />
+    <SolidColorBrush x:Key="SidebarBrush" Color="#07101D" />
+    <SolidColorBrush x:Key="BorderBrushMuted" Color="#1E3A57" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#21A8FF" />
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="#173B5B" />
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F4F8FC" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#9DB2C7" />
+    <SolidColorBrush x:Key="CriticalBrush" Color="#FF4D6D" />
+    <SolidColorBrush x:Key="HighBrush" Color="#FF9F43" />
+    <SolidColorBrush x:Key="MediumBrush" Color="#FFD166" />
+    <SolidColorBrush x:Key="LowBrush" Color="#35D07F" />
+  </Application.Resources>
+</Application>
