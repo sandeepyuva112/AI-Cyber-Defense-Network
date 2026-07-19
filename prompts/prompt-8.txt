@@ -1,0 +1,37 @@
+Complete database implementation.
+
+Create models for
+
+Users
+
+Logs
+
+Alerts
+
+Threats
+
+Reports
+
+Incidents
+
+AI Responses
+
+IOC
+
+Audit Logs
+
+Create
+
+Relationships
+
+Indexes
+
+Migrations
+
+CRUD
+
+Repository Pattern
+
+Reuse existing project.
+
+Do not redesign.

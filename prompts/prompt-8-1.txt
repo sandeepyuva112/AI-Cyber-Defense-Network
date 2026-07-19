@@ -1,0 +1,53 @@
+Proceed with option (b): extend the existing AIAnalysis model.
+
+Requirements:
+
+- Do not create a new `ai_responses` table.
+- Do not rename any existing tables.
+- Preserve all existing table names and relationships unless absolutely necessary for compatibility.
+- Extend the existing AIAnalysis model to fully represent AI responses.
+
+The AIAnalysis model should support:
+
+- AI Provider
+- Model Name
+- Prompt Version
+- Analysis Type
+- Input Summary
+- Structured Findings
+- Executive Summary
+- Threat Classification
+- Severity
+- Risk Score
+- Confidence Score
+- MITRE ATT&CK Mapping
+- Indicators of Compromise (IOCs)
+- Recommended Response Actions
+- Reasoning/Explanation
+- Processing Time
+- Token Usage (Prompt, Completion, Total)
+- Request ID / Correlation ID
+- Status (Pending, Completed, Failed)
+- Error Details (if applicable)
+- Created Timestamp
+- Updated Timestamp
+
+Relationships:
+
+- One Log → many AIAnalysis records (to support re-analysis over time).
+- One AIAnalysis → one originating Log.
+- Reports may reference one or more AIAnalysis records.
+- Alerts and Incidents may reference the associated AIAnalysis.
+
+Implementation:
+
+- Add only the required columns through Alembic migrations.
+- Preserve backward compatibility with the existing schema.
+- Do not introduce duplicate storage of AI-generated content.
+- Keep the design provider-agnostic so different AI models can be supported in the future.
+
+At the end, explain:
+- Every schema change
+- Every migration
+- Every new relationship
+- How AIAnalysis now represents the complete AI response lifecycle
