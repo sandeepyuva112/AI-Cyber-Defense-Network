@@ -19,10 +19,15 @@ class AlertStatusResponse(BaseModel):
     severity_score: int | None
     threat_category: str | None
     confidence_value: float | None
+    status: str = "Open"
 
 
 class AlertDetailsResponse(AlertStatusResponse):
     created_at: datetime
+
+
+class AlertStatusUpdateRequest(BaseModel):
+    status: str = Field(..., description="New status (Open, Investigating, Resolved, Closed)")
 
 
 class AlertFilterResponse(BaseModel):
@@ -65,6 +70,7 @@ async def list_alerts(
                 severity_score=a.severity_score,
                 threat_category=a.threat_category,
                 confidence_value=a.confidence_value,
+                status=a.status,
             )
             for a in rows
         ]
@@ -88,14 +94,37 @@ async def alert_details(alert_id: int) -> AlertDetailsResponse:
             severity_score=a.severity_score,
             threat_category=a.threat_category,
             confidence_value=a.confidence_value,
+            status=a.status,
         )
     finally:
         db_gen.close()
 
 
 @router.post("/alerts/{alert_id}/status", response_model=AlertStatusResponse)
-async def alert_status_update(alert_id: int) -> AlertStatusResponse:
-    # Repo does not have alert lifecycle/status fields.
-    # Return current alert snapshot.
-    return await alert_details(alert_id)
+async def alert_status_update(alert_id: int, req: AlertStatusUpdateRequest) -> AlertStatusResponse:
+    db_gen = get_db()
+    db = next(db_gen)
+    try:
+        a = db.get(Alert, alert_id)
+        if not a:
+            raise HTTPException(status_code=404, detail="Alert not found")
+            
+        if req.status not in ("Open", "Investigating", "Resolved", "Closed"):
+            raise HTTPException(status_code=400, detail="Invalid status value")
+
+        a.status = req.status
+        db.add(a)
+        db.commit()
+        db.refresh(a)
+
+        return AlertStatusResponse(
+            alert_id=a.id,
+            severity_level=a.severity_level,
+            severity_score=a.severity_score,
+            threat_category=a.threat_category,
+            confidence_value=a.confidence_value,
+            status=a.status,
+        )
+    finally:
+        db_gen.close()
 

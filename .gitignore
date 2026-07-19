@@ -22,3 +22,8 @@ logs/*
 !logs/.gitkeep
 reports/*
 !reports/.gitkeep
+
+# Environment variables / secrets
+.env
+Backend/.env
+*.env

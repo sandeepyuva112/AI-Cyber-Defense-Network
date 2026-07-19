@@ -67,17 +67,38 @@ async def generate_report(req: GenerateReportRequest) -> GenerateReportResponse:
     )
     full_report = builder.build_full_report(ai_report=ai_report, ctx=ctx)
 
-    report_db = Report(
-        incident_id=0,  # placeholder since current model doesn't link to incident yet
-        created_at=datetime.utcnow(),
-        report_type="incident",
-        content_json=full_report.model_dump(mode="json"),
-    )
-
     # Persist
     db_gen = get_db()
     db = next(db_gen)
     try:
+        from app.db.models.incident import Incident
+        
+        # Link to actual incident matching correlation_id
+        incident = db.query(Incident).filter(Incident.incident_id == req.correlation_id).first()
+        if incident:
+            incident_db_id = incident.id
+        else:
+            # Fallback mock incident to ensure foreign key integrity
+            mock_inc = Incident(
+                log_id=1,
+                incident_id=req.correlation_id,
+                log_type=str(req.log_type),
+                classification_type="unknown",
+                severity_level="low",
+                created_at=datetime.utcnow()
+            )
+            db.add(mock_inc)
+            db.flush()
+            incident_db_id = mock_inc.id
+
+        import json
+        report_db = Report(
+            incident_id=incident_db_id,
+            created_at=datetime.utcnow(),
+            report_type="incident",
+            content_json=json.dumps(full_report.model_dump(mode="json")),
+        )
+
         db.add(report_db)
         db.commit()
         db.refresh(report_db)

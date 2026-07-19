@@ -12,13 +12,14 @@ class RetryPolicy:
 
 
 def should_retry_http(status_code: int) -> bool:
-    return status_code in {429, 500, 502, 503, 504}
+    return status_code in {500, 502, 503, 504}
 
 
-def sleep_backoff(attempt: int, policy: RetryPolicy) -> None:
+async def sleep_backoff(attempt: int, policy: RetryPolicy) -> None:
+    import asyncio
     # attempt starts at 1
     delay = min(policy.max_delay_seconds, policy.base_delay_seconds * (2 ** (attempt - 1)))
     # small jitter without random dep
     jitter = delay * 0.15
-    time.sleep(max(0.0, delay - jitter))
+    await asyncio.sleep(max(0.0, delay - jitter))
 

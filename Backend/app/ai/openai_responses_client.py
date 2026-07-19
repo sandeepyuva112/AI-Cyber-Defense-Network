@@ -53,7 +53,7 @@ class OpenAIResponsesClient:
                 try:
                     resp = await client.post(url, headers=headers, json=payload)
                     if should_retry_http(resp.status_code) and attempt < self.retry_policy.max_attempts:
-                        sleep_backoff(attempt, self.retry_policy)
+                        await sleep_backoff(attempt, self.retry_policy)
                         continue
 
                     if resp.status_code >= 400:
@@ -71,7 +71,7 @@ class OpenAIResponsesClient:
                 except (httpx.TimeoutException, httpx.NetworkError) as e:
                     last_exc = e
                     if attempt < self.retry_policy.max_attempts:
-                        sleep_backoff(attempt, self.retry_policy)
+                        await sleep_backoff(attempt, self.retry_policy)
                         continue
                     raise AiServiceError(
                         message="Network error contacting OpenAI",

@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     openai_api_key: str = ""
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost", "http://127.0.0.1"])
+    jwt_secret_key: str = "SUPER_SECRET_AI_CYBER_DEFENSE_KEY_123!"
+    jwt_algorithm: str = "HS256"
+    jwt_access_token_expire_minutes: int = 1440
 
     model_config = SettingsConfigDict(
         env_file=".env",

@@ -22,12 +22,19 @@ class Log(Base):
     total_events_estimated: Mapped[int | None] = mapped_column(Integer, nullable=True)
     total_alerts: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
+    # File metadata
+    sha256: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    size: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    mime: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    parser: Mapped[str | None] = mapped_column(String(100), nullable=True, index=True)
+
     # Store the full raw text if you need forensic reprocessing.
     raw_text: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
 
-    uploaded_by: Mapped[object | None] = relationship("User", back_populates="logs")
+    # Relationship is optional/nullable for now; User model may omit back_populates in MVP.
+    uploaded_by: Mapped[object | None] = relationship("User")
     events: Mapped[list[object]] = relationship(
         "LogEvent", back_populates="log", cascade="all, delete-orphan"
     )

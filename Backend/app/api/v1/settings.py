@@ -10,6 +10,10 @@ from app.core.config import settings
 router = APIRouter()
 
 
+class APIKeysUpdateRequest(BaseModel):
+    openai_api_key: str
+
+
 class ApplicationSettingsResponse(BaseModel):
     app_name: str
     environment: str
@@ -74,4 +78,36 @@ async def health_checks() -> HealthChecksResponse:
         database_configured=bool(settings.database_url),
         openai_configured=bool(settings.openai_api_key),
     )
+
+
+@router.post("/settings/api-keys", response_model=dict)
+async def update_api_keys(req: APIKeysUpdateRequest) -> dict:
+    settings.openai_api_key = req.openai_api_key.strip()
+    
+    # Persist to .env file in Backend folder
+    import os
+    env_path = os.path.join(os.getcwd(), ".env")
+    try:
+        lines = []
+        if os.path.exists(env_path):
+            with open(env_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+        
+        found = False
+        new_lines = []
+        for line in lines:
+            if line.strip().startswith("OPENAI_API_KEY"):
+                new_lines.append(f"OPENAI_API_KEY={settings.openai_api_key}\n")
+                found = True
+            else:
+                new_lines.append(line)
+        if not found:
+            new_lines.append(f"OPENAI_API_KEY={settings.openai_api_key}\n")
+            
+        with open(env_path, "w", encoding="utf-8") as f:
+            f.writelines(new_lines)
+    except Exception:
+        pass
+        
+    return {"status": "success", "openai_configured": bool(settings.openai_api_key)}
 

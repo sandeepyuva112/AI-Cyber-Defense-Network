@@ -19,6 +19,34 @@ def initialize_database() -> None:
 
     Base.metadata.create_all(bind=engine)
 
+    # Seed default admin user if none exists
+    db = SessionLocal()
+    try:
+        from app.db.models.user import User
+        from app.api._common.auth import hash_password
+        from datetime import datetime
+        import uuid
+
+        if db.query(User).count() == 0:
+            admin_user = User(
+                id=str(uuid.uuid4()),
+                email="admin@cyberdefense.local",
+                name="System Administrator",
+                hashed_password=hash_password("admin"),
+                role="admin",
+                created_at=datetime.utcnow(),
+                updated_at=datetime.utcnow(),
+            )
+            db.add(admin_user)
+            db.commit()
+    except Exception as e:
+        db.rollback()
+        # Non-fatal error during seeding; log it.
+        import logging
+        logging.getLogger("uvicorn").error(f"Error seeding default admin: {e}")
+    finally:
+        db.close()
+
 
 def get_db() -> Generator[Session, None, None]:
     db = SessionLocal()

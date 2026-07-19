@@ -88,22 +88,25 @@ async def dashboard_metrics() -> MetricsResponse:
 
 @router.get("/dashboard/threat-timeline", response_model=TimelineResponse)
 async def threat_timeline(limit: int = 20) -> TimelineResponse:
-    # Placeholder: repo has no explicit threat timeline entity.
-    # Use incident creation timestamps as best-effort.
     db_gen = get_db()
     db = next(db_gen)
     try:
+        # Group by day
         rows = (
-            db.query(Incident.created_at)
-            .order_by(Incident.created_at.desc())
+            db.query(func.date(Incident.created_at), func.count(Incident.id))
+            .group_by(func.date(Incident.created_at))
+            .order_by(func.date(Incident.created_at).desc())
             .limit(limit)
             .all()
         )
-        items = [
-            ThreatTimelinePoint(timestamp=r[0], event="incident", count=1)  # type: ignore[index]
-            for r in rows
-            if r and r[0] is not None
-        ]
+        items = []
+        for r in rows:
+            if r and r[0] is not None:
+                try:
+                    ts = datetime.strptime(str(r[0]), "%Y-%m-%d")
+                except ValueError:
+                    ts = datetime.utcnow()
+                items.append(ThreatTimelinePoint(timestamp=ts, event="Incident Created", count=int(r[1] or 0)))
         return TimelineResponse(items=items)
     finally:
         db_gen.close()
@@ -134,17 +137,25 @@ async def recent_activity(limit: int = 10) -> RecentActivityResponse:
     db_gen = get_db()
     db = next(db_gen)
     try:
-        incs = (
-            db.query(Incident)
-            .order_by(Incident.created_at.desc())
-            .limit(limit)
-            .all()
-        )
-        items = [
-            RecentActivityItem(timestamp=i.created_at, type="incident", ref_id=i.id)
-            for i in incs
-        ]
-        return RecentActivityResponse(items=items)
+        from app.db.models.log import Log
+
+        # Get recent logs
+        logs = db.query(Log).order_by(Log.created_at.desc()).limit(limit).all()
+        # Get recent incidents
+        incs = db.query(Incident).order_by(Incident.created_at.desc()).limit(limit).all()
+        # Get recent alerts
+        alts = db.query(Alert).order_by(Alert.created_at.desc()).limit(limit).all()
+
+        combined = []
+        for l in logs:
+            combined.append(RecentActivityItem(timestamp=l.created_at, type="log", ref_id=l.id))
+        for i in incs:
+            combined.append(RecentActivityItem(timestamp=i.created_at, type="incident", ref_id=i.id))
+        for a in alts:
+            combined.append(RecentActivityItem(timestamp=a.created_at, type="alert", ref_id=a.id))
+
+        combined.sort(key=lambda x: x.timestamp, reverse=True)
+        return RecentActivityResponse(items=combined[:limit])
     finally:
         db_gen.close()
 

@@ -26,6 +26,7 @@ class Alert(Base):
     threat_category: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
 
     confidence_value: Mapped[float | None] = mapped_column(Float, nullable=True, index=True)
+    status: Mapped[str] = mapped_column(String(32), default="Open", nullable=False, index=True)
 
     # One alert can be mapped to multiple MITRE techniques.
 

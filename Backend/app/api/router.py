@@ -9,6 +9,7 @@ from app.api.v1 import alerts
 from app.api.v1 import threats
 from app.api.v1 import ai
 from app.api.v1 import settings
+from app.api.v1 import auth
 
 api_router = APIRouter()
 api_router.include_router(status.router, tags=["Status"])
@@ -20,6 +21,7 @@ api_router.include_router(alerts.router, tags=["Alerts"])
 api_router.include_router(threats.router, tags=["Threats"])
 api_router.include_router(ai.router, tags=["AI"])
 api_router.include_router(settings.router, tags=["Settings"])
+api_router.include_router(auth.router)
 
 
 

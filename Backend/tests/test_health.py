@@ -22,3 +22,15 @@ def test_status_endpoint_lists_mvp_capabilities() -> None:
     assert payload["name"] == "AI Cyber Defense Network API"
     assert any(item["name"] == "AI Threat Analysis" for item in payload["capabilities"])
 
+
+def test_settings_api_keys_update() -> None:
+    client = TestClient(create_app())
+    response = client.post(
+        "/api/v1/settings/api-keys",
+        json={"openai_api_key": "test_key_abc"}
+    )
+    assert response.status_code == 200
+    assert response.json()["status"] == "success"
+    assert response.json()["openai_configured"] is True
+
+
