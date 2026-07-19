@@ -10,8 +10,11 @@ from app.ai.error_handling import AiServiceError
 from app.schemas.ai_incident import AiIncidentReport
 from app.schemas.ai_request import LogType
 
+from app.detection.engine import DetectionEngine
+
 
 class AiEngineService:
+
     def __init__(
         self,
         openai_client: Optional[OpenAIResponsesClient] = None,
@@ -69,6 +72,21 @@ class AiEngineService:
         if model_text is None:
             model_text = raw
 
+        # Deterministic detection pass (no existing-code removal)
+        deterministic = DetectionEngine()
+        try:
+            det_report = deterministic.analyze(
+                correlation_id=correlation_id,
+                log_type=str(log_type),
+                log_text=safe_log_content,
+            )
+        except Exception:
+            det_report = None
+
+        # If deterministic engine produced findings, return them directly (Option 1).
+        if det_report is not None and det_report.suspicious_activities:
+            return det_report
+
         try:
             return self.parser.parse_incident_report(model_text, correlation_id, log_type)
         except Exception as e:
@@ -77,4 +95,5 @@ class AiEngineService:
                 code="ai_parse_error",
                 details=str(e),
             )
+
 

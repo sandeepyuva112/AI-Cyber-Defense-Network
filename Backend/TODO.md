@@ -1,21 +1,11 @@
-# TODO - Log Parsing Engine
+# Backend Work Tracker (Threat Detection Engine)
 
-- [x] Create normalized schema: `Backend/app/schemas/log_event.py`
-- [x] Create parser interfaces: `Backend/app/parsers/base.py`, `Backend/app/parsers/factory.py`
-- [x] Create shared parsing utilities: `Backend/app/parsers/utils.py`
-
-- [x] Implement parsers:
-
-  - [ ] Windows Event Logs (`windows_event_logs_parser.py`)
-  - [ ] Syslog (`syslog_parser.py`)
-  - [ ] JSON Logs (`json_logs_parser.py`)
-  - [ ] CSV Logs (`csv_logs_parser.py`)
-  - [ ] Apache Logs (`apache_logs_parser.py`)
-  - [ ] Nginx Logs (`nginx_logs_parser.py`)
-  - [ ] Firewall Logs (`firewall_logs_parser.py`)
-- [ ] Export in `Backend/app/parsers/__init__.py`
-- [x] Add unit tests: `Backend/tests/test_log_parsers.py`
-
-- [x] Run `pytest` and fix any issues
+- [ ] Inventory repo threat-detection related code (AI pipeline, schemas, parsing) 
+- [ ] Implement deterministic Threat Detection Engine (IOC detection, behavior analysis, rule engine) under `Backend/app/detection/`
+- [ ] Implement threat scoring + confidence calculation (Severity 0-100 + Confidence 0-1) 
+- [x] Implement structured findings output as `AiIncidentReport`
+- [x] Integrate into `Backend/app/ai/service.py` using approved integration option
+- [x] Add unit tests for detectors, scoring, and schema conformance
+- [x] Run `pytest` and fix failures
 
 
