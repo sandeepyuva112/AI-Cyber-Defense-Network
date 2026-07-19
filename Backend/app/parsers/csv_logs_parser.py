@@ -35,7 +35,10 @@ class CsvLogsParser(BaseLogParser):
                 return [LogEvent(event_type="malformed", message=None, ioc=[], raw=raw)]
 
             # Try dialect detection on first chunk
-            dialect = detect_csv_dialect(s)
+            try:
+                dialect = detect_csv_dialect(s)
+            except Exception:
+                dialect = csv.excel
             f = io.StringIO(s)
             reader = csv.DictReader(f, dialect=dialect)
             if not reader.fieldnames:

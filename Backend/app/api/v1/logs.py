@@ -308,6 +308,9 @@ async def upload_log(
 
         # Best-effort parse based on provided log_type or filename.
         resolved_type = log_type or "unknown"
+        if resolved_type == "unknown":
+            from app.api.v1.logs_upload_utils import detect_log_type_from_filename
+            resolved_type = detect_log_type_from_filename(source_filename) or "unknown"
         try:
             text, events_payload = parse_uploaded_log(
                 raw_bytes=raw_bytes,
