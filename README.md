@@ -1,87 +1,121 @@
 # AI Cyber Defense Network
 
-### AI-powered desktop application for faster security log analysis and threat investigation
+AI Cyber Defense Network is a desktop Security Operations Center (SOC) prototype that ingests security logs, correlates threats, highlights suspicious activity, and uses AI to explain incidents in plain language.
 
-## About the Project
+Built for the OpenAI Build Week Hackathon, the project combines a modern desktop interface with a Python/FastAPI backend, database-backed analytics, and AI-assisted threat investigation.
 
-Security teams deal with thousands of alerts and log files every day. Reviewing them manually takes time, and important threats can easily be missed. Smaller organizations often don't have dedicated security analysts, making the problem even harder.
+## What it does
 
-AI Cyber Defense Network was created to make security analysis simpler and faster. Instead of asking users to read through raw logs, the application analyzes uploaded security logs, highlights suspicious activity, explains why an event may be dangerous, and suggests possible response actions using AI.
+- Upload and ingest security log files
+- Parse and normalize multiple log formats
+- Detect suspicious activity and correlate threats
+- Store alerts, incidents, and analysis results in a database
+- Show real-time SOC-style dashboards and threat views
+- Generate AI explanations, response guidance, and reports
+- Track IOC entries and MITRE ATT&CK mappings
 
-This project was developed as a prototype during the **OpenAI Build Week Hackathon** to explore how Large Language Models can support cybersecurity workflows. The goal isn't to replace security professionals, but to help them understand incidents more quickly and make better-informed decisions.
+## Key features
 
-## Why We Built It
+- Security operations dashboard with live metrics
+- Live monitor for streaming or parsed event feeds
+- Log upload portal with ingestion history
+- Threat explorer for incident correlation
+- IOC registry for extracted indicators of compromise
+- MITRE ATT&CK matrix view for tactic/technique mapping
+- Alert management console for triage and lifecycle updates
+- Incident report center for saved forensic reports
+- Settings page for backend URL and AI connectivity
 
-Most security tools generate alerts, but they often expect users to already understand what those alerts mean. For beginners and small security teams, this can slow down investigations.
-
-We wanted to build a tool that answers questions like:
-
-* What happened?
-* Why is this suspicious?
-* How serious is it?
-* What should I do next?
-
-By combining traditional log analysis with AI-generated explanations, the platform helps reduce the time needed to investigate security events.
-
-## What the Application Can Do
-
-* Upload and analyze security log files
-* Detect potentially suspicious activity
-* Generate easy-to-understand AI explanations
-* Prioritize threats based on risk
-* Display findings through a dashboard
-* Generate investigation reports
-* Suggest possible mitigation steps
-
-## Technology Stack
+## Tech stack
 
 ### Frontend
-
-* React
-* TypeScript
-* Tailwind CSS
-* Electron
+- React
+- TypeScript
+- Electron
+- Tailwind CSS
 
 ### Backend
-
-* Python
-* FastAPI
-* SQLAlchemy
+- Python
+- FastAPI
+- SQLAlchemy
+- Alembic
 
 ### Database
-
-* SQLite
+- SQLite
 
 ### AI
+- OpenAI API / Responses API
 
-* OpenAI API
-* Large Language Models (LLMs)
+## Architecture
 
-## Current Status
+The current design follows a clear pipeline:
 
-This project is an active hackathon prototype. Core features are implemented, while additional improvements such as live monitoring, SIEM integration, and advanced analytics are planned for future development.
+1. Upload log file
+2. Parse and normalize events
+3. Detect threats and extract IOCs
+4. Run AI analysis for explanation and recommendations
+5. Store everything in the database
+6. Feed dashboard, alerts, threat explorer, and reports from persisted data
 
-## Future Plans
+This keeps the dashboard historical, searchable, and ready for future real-time expansion.
 
-Some ideas we would like to continue working on include:
+## Screenshots
 
-* Real-time log monitoring
-* Threat intelligence integration
-* Multi-user authentication
-* Cloud deployment
-* Docker support
-* Improved AI explanations
-* More detailed reporting
-* Support for additional log formats
+The repository includes a working desktop UI with:
+
+- Dashboard
+- Live Monitor
+- Log Upload
+- Threat Explorer
+- IOC Registry
+- MITRE Matrix
+- Alerts Center
+- Reports
+- Settings
+
+## Current status
+
+This is a hackathon-ready prototype with a strong UI and a backend foundation. The remaining work is focused on finishing database-backed ingestion, finalizing the AI analysis flow, connecting all endpoints, and polishing reporting and testing.
+
+## Project structure
+
+- `Frontend/` - desktop application
+- `Backend/` - FastAPI service and database layer
+- `Database/` - local SQLite database files
+- `Docs/` - documentation and design notes
+- `Prompts/` - build prompts and AI workflow notes
+- `Reports/` - generated report assets
+
+## How to run
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run desktop
+```
+
+### Backend
+```bash
+cd Backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+## Hackathon submission focus
+
+This project was designed to demonstrate:
+
+- AI-assisted cybersecurity analysis
+- Clear incident explanation for non-experts
+- SOC-style dashboarding and triage workflows
+- Persistent analytics instead of one-off request processing
+- Practical desktop usability for Windows and Linux environments
+
+## License
+
+No license has been added yet.
 
 ## Acknowledgements
 
-This project was built during the **OpenAI Build Week Hackathon** using open-source technologies together with OpenAI's APIs and developer tools.
-
-We appreciate the communities behind Python, FastAPI, React, Electron, and all the open-source libraries that made this prototype possible.
-
-## How to run 
-
-cd frontend 
-
-npm run desktop 
+Built for the OpenAI Build Week Hackathon using OpenAI APIs and open-source tools.
