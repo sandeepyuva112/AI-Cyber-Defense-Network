@@ -1,3 +1,31 @@
+## 🤖 AI Development Process (Codex & GPT-5.6)
+
+This project was built using an AI-assisted development workflow during the OpenAI Build Week Hackathon.
+
+### How Codex was used
+- Generated backend API endpoints and boilerplate code.
+- Assisted in implementing FastAPI routers and database models.
+- Helped debug Python, JavaScript, and React issues.
+- Generated frontend components and UI logic.
+- Refactored existing code for better structure and maintainability.
+- Assisted with testing and fixing implementation errors.
+
+### How GPT-5.6 was used
+- Designed the overall system architecture.
+- Planned the cybersecurity workflow and application features.
+- Helped design the AI-powered SOC dashboard.
+- Generated technical documentation and the project README.
+- Assisted in writing prompts, UI content, and project descriptions.
+- Reviewed the application, suggested improvements, and supported debugging throughout development.
+
+### Human Contributions
+- Designed the project idea and feature set.
+- Integrated frontend and backend components.
+- Implemented the application structure and user interface.
+- Tested the prototype and refined the overall user experience.
+- Made final implementation decisions and validated AI-generated code.
+
+AI served as a development assistant, while all architectural decisions, feature selection, integration, and final implementation were completed by the project author.
 #  AI Cyber Defense Network
 
 An AI-powered desktop application that helps security analysts investigate cyber threats faster by turning raw security logs into understandable insights.
