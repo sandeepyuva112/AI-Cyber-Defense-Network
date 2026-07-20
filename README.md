@@ -83,4 +83,5 @@ We appreciate the communities behind Python, FastAPI, React, Electron, and all t
 ## How to run 
 
 cd frontend 
+
 npm run desktop 
