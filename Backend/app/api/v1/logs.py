@@ -584,6 +584,11 @@ async def list_log_events(log_id: int, db: Session = Depends(get_db)) -> list[Lo
 @router.get("/logs/events/all", response_model=list[LogEventResponse])
 async def list_all_events(limit: int = 100, db: Session = Depends(get_db)) -> list[LogEventResponse]:
     import json
+    import os
+    import subprocess
+    import datetime
+
+    # Get DB events
     rows = db.query(LogEventModel).order_by(LogEventModel.timestamp.desc()).limit(limit).all()
     res = []
     for ev in rows:
@@ -621,5 +626,84 @@ async def list_all_events(limit: int = 100, db: Session = Depends(get_db)) -> li
                 raw=raw_val
             )
         )
-    return res
+
+    # Fetch live Windows logs if on Windows
+    if os.name == 'nt':
+        try:
+            # Select Application log (available without admin rights)
+            cmd = ["powershell", "-NoProfile", "-Command", 
+                   f"Get-EventLog -LogName Application -Newest {limit} | Select-Object TimeGenerated, EntryType, Source, EventID, Message | ConvertTo-Json"]
+            proc = subprocess.run(cmd, capture_output=True, text=True, timeout=3)
+            if proc.returncode == 0 and proc.stdout.strip():
+                data = json.loads(proc.stdout)
+                if not isinstance(data, list):
+                    data = [data]
+                
+                for i, item in enumerate(data):
+                    tg_str = item.get("TimeGenerated")
+                    dt = None
+                    if tg_str:
+                        if "Date(" in tg_str:
+                            try:
+                                ms = int(tg_str.split("(")[1].split(")")[0])
+                                dt = datetime.datetime.fromtimestamp(ms / 1000.0)
+                            except Exception:
+                                dt = datetime.datetime.utcnow()
+                        else:
+                            try:
+                                # Parse powershell datetime string
+                                dt = datetime.datetime.strptime(tg_str, "%m/%d/%Y %I:%M:%S %p")
+                            except Exception:
+                                try:
+                                    dt = datetime.datetime.fromisoformat(tg_str)
+                                except Exception:
+                                    dt = datetime.datetime.utcnow()
+                    else:
+                        dt = datetime.datetime.utcnow()
+
+                    entry_type = str(item.get("EntryType") or "Information").lower()
+                    severity = "low"
+                    if "error" in entry_type:
+                        severity = "high"
+                    elif "warning" in entry_type:
+                        severity = "medium"
+
+                    msg = item.get("Message") or ""
+                    if len(msg) > 300:
+                        msg = msg[:300] + "..."
+
+                    if dt.tzinfo is not None:
+                        dt = dt.replace(tzinfo=None)
+
+                    # Check threat signatures
+                    threat_score = 0.0
+                    from app.detection.rules import match_rules
+                    matches, _ = match_rules(msg)
+                    if matches:
+                        threat_score = float(max(m.weight for m in matches) * 10)
+
+                    res.append(
+                        LogEventResponse(
+                            id=-999 - i,
+                            log_id=-999,
+                            timestamp=dt,
+                            source=item.get("Source") or "Windows",
+                            ip="127.0.0.1",
+                            destination_ip=None,
+                            username="SYSTEM",
+                            process=item.get("Source") or "EventLog",
+                            severity=severity,
+                            event_type=f"WinEvent-{item.get('EventID')}",
+                            message=msg,
+                            threat_score=threat_score,
+                            ioc=[],
+                            raw=item
+                        )
+                    )
+        except Exception:
+            pass
+
+    # Sort merged result by timestamp desc
+    res.sort(key=lambda x: x.timestamp or datetime.datetime.min, reverse=True)
+    return res[:limit]
 

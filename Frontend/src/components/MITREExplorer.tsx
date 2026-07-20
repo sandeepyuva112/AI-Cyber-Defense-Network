@@ -35,13 +35,17 @@ export default function MITREExplorer() {
   ];
 
   // Helper to check if mapping aligns with tactic name (case-insensitive fuzzy match)
+  // Helper to check if mapping aligns with tactic name (case-insensitive fuzzy match)
   const getTechniquesForTactic = (tacticKey: string) => {
-    const tName = tacticKey.replace("_", " ").toLowerCase();
+    const tName = tacticKey.replace(/_/g, " ").replace(/-/g, " ").toLowerCase();
     
     // Extract matching techniques
     const matching: any[] = [];
     mappings.forEach(m => {
-      const match = m.tactics.some((t: string) => t.toLowerCase().includes(tName) || tName.includes(t.toLowerCase()));
+      const match = m.tactics.some((t: string) => {
+        const normalizedT = t.replace(/_/g, " ").replace(/-/g, " ").toLowerCase();
+        return normalizedT.includes(tName) || tName.includes(normalizedT);
+      });
       if (match) {
         // avoid duplicate technique additions
         if (!matching.some(x => x.technique_id === m.technique_id)) {

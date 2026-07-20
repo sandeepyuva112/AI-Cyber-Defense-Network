@@ -12,7 +12,7 @@ export default function Reports() {
     try {
       const client = getApiClient();
       const res = await client.get("/api/v1/reports?limit=50");
-      setReports(res.data);
+      setReports(Array.isArray(res.data) ? res.data : (res.data.items || []));
     } catch (err) {
       console.error("Error loading reports:", err);
     } finally {
@@ -49,24 +49,26 @@ export default function Reports() {
     // Parse findings
     let content = "";
     try {
-      content = JSON.stringify(JSON.parse(report.content_json), null, 2);
+      const rawContent = report.content || report.content_json;
+      content = JSON.stringify(typeof rawContent === "string" ? JSON.parse(rawContent) : rawContent, null, 2);
     } catch (e) {
-      content = report.content_json;
+      content = report.content || report.content_json || "";
     }
+    const reportId = report.id || report.report_id || "unknown";
 
     if (format === "json") {
       const blob = new Blob([content], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `incident_report_ID_${report.report_id}.json`;
+      a.download = `incident_report_ID_${reportId}.json`;
       a.click();
     } else {
       // Export as HTML
       const htmlContent = `
         <html>
           <head>
-            <title>Incident Report ID ${report.report_id}</title>
+            <title>Incident Report ID ${reportId}</title>
             <style>
               body { font-family: sans-serif; padding: 40px; background: #070B14; color: #e5e7eb; }
               h1 { color: #00E5FF; }
@@ -86,7 +88,7 @@ export default function Reports() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `incident_report_ID_${report.report_id}.html`;
+      a.download = `incident_report_ID_${reportId}.html`;
       a.click();
     }
   };
@@ -95,10 +97,13 @@ export default function Reports() {
     // Parse json
     let findings: any = {};
     try {
-      findings = JSON.parse(reportDetails.content_json);
+      const rawContent = reportDetails.content || reportDetails.content_json;
+      findings = typeof rawContent === "string" ? JSON.parse(rawContent) : rawContent;
     } catch (e) {
       findings = {};
     }
+
+    const reportId = reportDetails.id || reportDetails.report_id;
 
     return (
       <div className="space-y-6">
@@ -111,7 +116,7 @@ export default function Reports() {
           </button>
           <div>
             <h1 className="text-xl font-bold text-white uppercase flex items-center gap-2">
-              <FileText className="text-cyberPrimary" /> Report ID: {reportDetails.report_id}
+              <FileText className="text-cyberPrimary" /> Report ID: {reportId}
             </h1>
             <p className="text-xs text-gray-400">Forensic incident report summary</p>
           </div>
@@ -148,7 +153,7 @@ export default function Reports() {
               <div>
                 <span className="text-gray-500 font-semibold uppercase text-xs">Classification</span>
                 <p className="text-white font-medium mt-1">
-                  Incident Type: {findings.classification.incident_type} (Confidence: {findings.classification.confidence_percentage}%)
+                  Incident Type: {findings.classification.incident_type} (Confidence: {findings.confidence?.value || findings.classification.confidence_percentage || 0}%)
                 </p>
               </div>
             )}
@@ -157,7 +162,7 @@ export default function Reports() {
               <div className="p-4 bg-cyberPurple/5 border border-cyberPurple/20 rounded-lg space-y-2">
                 <span className="text-cyberPurple font-semibold uppercase text-xs block">AI Mitigation Directives</span>
                 <div className="text-gray-300 whitespace-pre-line text-xs leading-relaxed">
-                  {findings.remediation.containment_steps?.join("\n")}
+                  {(findings.remediation.containment_steps || findings.remediation.steps || []).join("\n")}
                 </div>
               </div>
             )}
@@ -193,31 +198,34 @@ export default function Reports() {
           <div className="py-12 text-center text-gray-500">Loading reports...</div>
         ) : reports.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {reports.map((rep) => (
-              <div 
-                key={rep.report_id} 
-                className="p-4 bg-gray-900/40 border border-gray-800 rounded-lg flex justify-between items-center hover:border-cyberPrimary/30 transition"
-              >
-                <div className="space-y-1">
-                  <h4 className="text-sm font-bold text-white">Forensic Report ID {rep.report_id}</h4>
-                  <p className="text-xs text-gray-400">{new Date(rep.created_at).toLocaleString()}</p>
+            {reports.map((rep) => {
+              const repId = rep.id || rep.report_id;
+              return (
+                <div 
+                  key={repId} 
+                  className="p-4 bg-gray-900/40 border border-gray-800 rounded-lg flex justify-between items-center hover:border-cyberPrimary/30 transition"
+                >
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-bold text-white">Forensic Report ID {repId}</h4>
+                    <p className="text-xs text-gray-400">{new Date(rep.created_at).toLocaleString()}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => setSelectedReportId(repId)}
+                      className="p-2 bg-cyberPrimary/10 border border-cyberPrimary/30 text-cyberPrimary rounded hover:bg-cyberPrimary/20 transition"
+                    >
+                      <Eye size={14} />
+                    </button>
+                    <button 
+                      onClick={() => handleExport(rep, "json")}
+                      className="p-2 bg-gray-950 border border-gray-850 text-gray-400 rounded hover:text-white transition"
+                    >
+                      <Download size={14} />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <button 
-                    onClick={() => setSelectedReportId(rep.report_id)}
-                    className="p-2 bg-cyberPrimary/10 border border-cyberPrimary/30 text-cyberPrimary rounded hover:bg-cyberPrimary/20 transition"
-                  >
-                    <Eye size={14} />
-                  </button>
-                  <button 
-                    onClick={() => handleExport(rep, "json")}
-                    className="p-2 bg-gray-950 border border-gray-850 text-gray-400 rounded hover:text-white transition"
-                  >
-                    <Download size={14} />
-                  </button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="py-12 text-center text-gray-500">No incident reports compiled. Generate reports by clicking "Analyze" on log uploads.</div>
